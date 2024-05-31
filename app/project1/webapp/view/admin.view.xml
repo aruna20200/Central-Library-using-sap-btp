@@ -172,7 +172,7 @@
         <f:content>
             <Table
                 id="idBooksTable"
-                mode="SingleSelectMaster"
+                mode="MultiSelect"
                 alternateRowColors="true"
                 items="{/Books}"
                 selectionChange="onSelectBook"

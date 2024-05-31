@@ -162,6 +162,72 @@ sap.ui.define(
         this.getView().byId("idBooksTable").getBinding("items").refresh();
 
       },
+      // for Editing the Book  
+            
+      oneditBtnPress: async function () {
+        var oSelected = this.byId("idBooksTable").getSelectedItem();
+    
+        if (oSelected) {
+          var oID = oSelected.getBindingContext().getProperty("ID");
+            var otitle = oSelected.getBindingContext().getProperty("title");
+            var oauthor = oSelected.getBindingContext().getProperty("author");
+            var oquantity = oSelected.getBindingContext().getProperty("quantity");
+            var oAquantity = oSelected.getBindingContext().getProperty("Aquantity");
+            var oISBN = oSelected.getBindingContext().getProperty("isbn");
+    
+            var newBookModel = new sap.ui.model.json.JSONModel({
+              ID:oID,
+                author: oauthor,
+                title: otitle,
+                quantity: oquantity,
+                Aquantity: oAquantity,
+                ISBN: oISBN
+            });
+    
+            this.getView().setModel(newBookModel, "newBookModel");
+    
+            if (!this.oEditBooksDialog) {
+                this.oEditBooksDialog = await this.loadFragment("editBooks"); // Load your fragment asynchronously
+            }
+    
+            this.oEditBooksDialog.open();
+        }
+    },
+    onSave1: function() {
+      var oPayload = this.getView().getModel("newBookModel").getData();
+      var oDataModel = this.getOwnerComponent().getModel("ModelV2");// Assuming this is your OData V2 model
+      console.log(oDataModel.getMetadata().getName());
+
+      try {
+          // Assuming your update method is provided by your OData V2 model
+          oDataModel.update("/Books(" + oPayload.ID + ")", oPayload, {
+              success: function() {
+                  this.getView().byId("idBooksTable").getBinding("items").refresh();
+                  this.oEditBooksDialog.close();
+              }.bind(this),
+              error: function(oError) {
+                  this.oEditBooksDialog.close();
+                  sap.m.MessageBox.error("Failed to update book: " + oError.message);
+              }.bind(this)
+          });
+      } catch (error) {
+          this.oEditBooksDialog.close();
+          sap.m.MessageBox.error("Some technical Issue");
+      }
+  
+  
+      var oDataModel = new sap.ui.model.odata.v2.ODataModel({
+          serviceUrl: "https://port4004-workspaces-ws-q45kc.us10.trial.applicationstudio.cloud.sap/odata/v4/catalog/Books",
+          defaultBindingMode: sap.ui.model.BindingMode.TwoWay,
+          // Configure message parser
+          messageParser: sap.ui.model.odata.ODataMessageParser
+      })  
+},
+
+
+
+
+
 
       onDeleteBtnPress: async function () {
 
@@ -191,7 +257,11 @@ sap.ui.define(
           sISBN = oIsbnFilter.removeAllTokens();
 
       },
-
+      onClose1:function () {
+        if (this.oEditBooksDialog.isOpen()) {
+          this.oEditBooksDialog.close();
+        }
+      },
 
     });
   }

@@ -2,7 +2,6 @@
 sap.ui.define(
   [
     "./Basecontroller",
- 
     "sap/m/MessageBox",
     "sap/m/MessageToast",
     "sap/ui/model/Filter",
@@ -57,6 +56,7 @@ sap.ui.define(
             await this.createData(oModel, oPayload, "/users");
             // this.getView().byId("idBooksTable").getBinding("items").refresh();
             this.oSignUpUser.close();
+            MessageBox.success("successfully signup");
         } catch (error) {
             this.oSignUpUser.close();
             sap.m.MessageBox.error("Some technical Issue");
@@ -127,10 +127,11 @@ sap.ui.define(
               }
               if (oData.results[0].usertype === "admin") {
                 var userid = oData.results[0].ID;
-                MessageToast.show("Login successful!");
+                // MessageBox.success("Login successful!");
                 this.getOwnerComponent()
                   .getRouter()
                   .navTo("routeNew");
+                  MessageBox.success("Login successful!");
               }
  
               // Redirect to the next page or perform other login success actions

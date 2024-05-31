@@ -48,7 +48,7 @@
                         />
                         <m:Title
                             id="idUserName"
-                            text="{name}"
+                            text="{name}{username}"
                             wrapping="true"
                         />
                     </m:FlexBox>

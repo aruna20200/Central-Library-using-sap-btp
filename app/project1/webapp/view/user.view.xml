@@ -240,7 +240,7 @@
  
                      <ObjectPageSubSection
                         id="idBorrowBooksSubSection"
-                        title="Available Books"
+                        title="Total Books"
                         titleUppercase="false"
                     >
                         <blocks>

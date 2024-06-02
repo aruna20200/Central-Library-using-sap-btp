@@ -102,6 +102,8 @@ sap.ui.define(
 
 
       },
+
+      
       onissuebooks: async function () {
         if (!this.odialogbox4) {
           this.odialogbox4 = await this.loadFragment("issuebooks");
@@ -134,6 +136,7 @@ sap.ui.define(
 
         // location.reload();
       },
+      //Issue books close
       onCloseIssueBookPress:function () {
         if (this.odialogbox4.isOpen()) {
           this.odialogbox4.close();
@@ -193,6 +196,8 @@ sap.ui.define(
             this.oEditBooksDialog.open();
         }
     },
+    //Edit book save function
+
     onSave1: function() {
       var oPayload = this.getView().getModel("newBookModel").getData();
       var oDataModel = this.getOwnerComponent().getModel("ModelV2");// Assuming this is your OData V2 model
@@ -257,6 +262,7 @@ sap.ui.define(
           sISBN = oIsbnFilter.removeAllTokens();
 
       },
+      //edit book close
       onClose1:function () {
         if (this.oEditBooksDialog.isOpen()) {
           this.oEditBooksDialog.close();

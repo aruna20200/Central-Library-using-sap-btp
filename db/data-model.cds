@@ -10,6 +10,8 @@ entity Books : cuid {
   quantity : Integer;
   Aquantity : Integer;
   bookloans : Composition of many Bookloans on bookloans.book =$self;
+  reservedBy : Association to many Reservations on reservedBy.book = $self;
+  issuedTo : Association to one Issuances on issuedTo.book = $self;
 }
  
 entity Bookloans : cuid {
@@ -26,5 +28,18 @@ entity users : cuid {
   password : String;
   usertype : String;
   bookloan : Association to many Bookloans on bookloan.user =$self;
+  reservations : Association to many Reservations on reservations.user = $self;
+  issuances    : Association to many Issuances on issuances.user = $self;
  
+}
+entity Reservations : cuid {
+    user : Association to users;
+    book : Association to Books;
+    reservationDate : Date;
+}
+entity Issuances : cuid{
+    user : Association to users;
+    book : Association to Books;
+    issueDate : Date;
+    returnDate : Date;
 }

@@ -1,0 +1,106 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    xmlns:f="sap.f"
+>
+    <Dialog
+        id="idreservebooksTable"
+        resizable="true"
+        draggable="true"
+        contentWidth="95%"
+        contentHeight="95%"
+        title="Reserve Books"
+    >
+        <content>
+            <Table
+                id="myTable"
+                inset="false"
+                items="{/selectedReservations}"
+            >
+                <headerToolbar>
+                    <Toolbar id="idToolBar">
+                        <ToolbarSpacer id="idSpacer" />
+                        <Button
+                            id="idReserveCloseButton"
+                            text="close"
+                            press="onCloseReserveBooks"
+                        />
+                    </Toolbar>
+                </headerToolbar>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Input
+                                id="idIDInput1"
+                                value="{selectedId}"
+                            />
+                            <Input
+                                id="iduser_IDInput11"
+                                value="{selectOID}"
+                            />
+                            <Input
+                                id="idbook_IDInput1"
+                                value="{selectdbook_ID}"
+                            />
+
+                            <Input
+                                id="idreservationDateInput1"
+                                value="{chooseReservationDate}"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+
+                <columns>
+                    <Column>
+                        <Text text="ID" />
+                    </Column>
+                    <Column>
+                        <Text text="User Id" />
+                    </Column>
+                    <Column>
+                        <Text text="Book Id" />
+                    </Column>
+                    <Column>
+                        <Text text="Reservation Date" />
+                    </Column>
+                </columns>
+
+                <!-- <Label
+                    id="idIDLabel"
+                    text="ID"
+                />
+                <Input
+                    id="idIDInput1"
+                    value="{ID}"
+                />
+                <Label
+                    id="iduser_ID"
+                    text="user_ID"
+                />
+                <Input
+                    id="iduser_IDInput11"
+                    value="{user_ID}"
+                />
+                <Label
+                    id="idbook_IDLabel1"
+                    text="book_ID"
+                />
+                <Input
+                    id="idbook_IDInput1"
+                    value="{book_ID}"
+                />
+                <Label
+                    id="idreservationDate"
+                    text="reservationDate"
+                />
+                <Input
+                    id="idreservationDateInput1"
+                    value="{reservationDate}"
+                /> -->
+            </Table>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

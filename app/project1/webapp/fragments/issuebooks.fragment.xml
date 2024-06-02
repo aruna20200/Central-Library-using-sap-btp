@@ -48,29 +48,29 @@
                 singleContainerFullSize="false"
             >
                 <Label
-                    id="idLableUserID"
-                    text="User ID"
+                    id="idIDLable1"
+                    text="ID"
                 />
-                <Input id="idUseridInput" value="{localModel>/Userid}" />
+                <Input id="idIDInput1" value="{localModel>/ID}" />
                 <Label
-                    id="idLableBookName"
-                    text="Book Name"
+                    id="iduser_IDLable1"
+                    text="user_ID"
                 />
                 <Input
-                    id="idBookNameInput"
-                    value="{localModel>/bookname}"
+                    id="iduser_IDInput1"
+                    value="{localModel>/user_ID}"
                 />
                 <Label
-                    id="idlblAuthor"
-                    text="Author"
+                    id="idissueDate"
+                    text="issueDate"
                 />
-                <Input id="idAuthorInput123" value="{localModel>/Author}" />
+                <Input id="idissueDate1Input" value="{localModel>/issueDate}" />
  
                 <Label
-                    id="idlblISBN"
-                    text="ISBN"
+                    id="idissuereturnDate"
+                    text="returnDate"
                 />
-                <Input id="idISBNInput" value="{localModel>/ISBN}"/>
+                <Input id="idreturnDate" value="{localModel>/returnDate}"/>
             </form:SimpleForm>
         </content>
     </Dialog>

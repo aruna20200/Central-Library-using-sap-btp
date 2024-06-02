@@ -183,9 +183,7 @@
                             id="idTableHeaderTitle"
                             text="Books"
                         />
-                        
-                        
-                          
+
                         <ToolbarSpacer id="idTableHeaderSpacer" />
                         <Button
                             id="idBtnCreate"
@@ -211,7 +209,6 @@
                             press="onDeleteBtnPress"
                             text="Delete"
                         />
-
                     </OverflowToolbar>
                 </headerToolbar>
                 <columns>

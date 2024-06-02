@@ -99,45 +99,26 @@ sap.ui.define(
       },
       //for closing the ActiveLoans popup...
       onCloseActiveLoans: function () {
-
-
-      },
-
-      
-      onissuebooks: async function () {
-        if (!this.odialogbox4) {
-          this.odialogbox4 = await this.loadFragment("issuebooks");
-        }
-        this.odialogbox4.open();
-      },
-      //for closing the issuebooks popup...
-      onCloseissuebooks: function () {
-
-
-      },
-
-      onCancelDialog2: function () {
-        if (this.odialogbox2.isOpen()) {
-          this.odialogbox2.close();
-        }
-        // location.reload();
-      },
-      // oneditBtnPress: async function () {
-      //   if (!this.odialogbox4) {
-      //     this.odialogbox4 = await this.loadFragment("Edit");
-      //   }
-      //   this.odialogbox4.open();
-      // },
-
-      onCloseActiveLoans: function () {
         if (this.odialogbox3.isOpen()) {
           this.odialogbox3.close();
         }
 
         // location.reload();
       },
-      //Issue books close
-      onCloseIssueBookPress:function () {
+
+      
+
+//on issue books 2nd june
+      onissuebooks: async function () {
+        if (!this.odialogbox4) {
+          this.odialogbox4 = await this.loadFragment("issuebooks");
+         }
+         this.odialogbox4.open();
+        
+      },
+
+      //for closing the issuebooks popup...
+      onCloseIssueBookPress: function () {
         if (this.odialogbox4.isOpen()) {
           this.odialogbox4.close();
         }
@@ -146,9 +127,13 @@ sap.ui.define(
       },
 
 
-
-
-      onSave: async function () {
+      onCancelDialog2: function () {
+        if (this.odialogbox2.isOpen()) {
+          this.odialogbox2.close();
+        }
+        // location.reload();
+      },
+       onSave: async function () {
 
         const oPayload = this.getView().getModel("localModel").getProperty("/"),
           oModel = this.getView().getModel("ModelV2");
@@ -166,73 +151,68 @@ sap.ui.define(
 
       },
       // for Editing the Book  
-            
+
       oneditBtnPress: async function () {
         var oSelected = this.byId("idBooksTable").getSelectedItem();
-    
+
         if (oSelected) {
           var oID = oSelected.getBindingContext().getProperty("ID");
-            var otitle = oSelected.getBindingContext().getProperty("title");
-            var oauthor = oSelected.getBindingContext().getProperty("author");
-            var oquantity = oSelected.getBindingContext().getProperty("quantity");
-            var oAquantity = oSelected.getBindingContext().getProperty("Aquantity");
-            var oISBN = oSelected.getBindingContext().getProperty("isbn");
-    
-            var newBookModel = new sap.ui.model.json.JSONModel({
-              ID:oID,
-                author: oauthor,
-                title: otitle,
-                quantity: oquantity,
-                Aquantity: oAquantity,
-                ISBN: oISBN
-            });
-    
-            this.getView().setModel(newBookModel, "newBookModel");
-    
-            if (!this.oEditBooksDialog) {
-                this.oEditBooksDialog = await this.loadFragment("editBooks"); // Load your fragment asynchronously
-            }
-    
-            this.oEditBooksDialog.open();
+          var otitle = oSelected.getBindingContext().getProperty("title");
+          var oauthor = oSelected.getBindingContext().getProperty("author");
+          var oquantity = oSelected.getBindingContext().getProperty("quantity");
+          var oAquantity = oSelected.getBindingContext().getProperty("Aquantity");
+          var oISBN = oSelected.getBindingContext().getProperty("isbn");
+
+          var newBookModel = new sap.ui.model.json.JSONModel({
+            ID: oID,
+            author: oauthor,
+            title: otitle,
+            quantity: oquantity,
+            Aquantity: oAquantity,
+            ISBN: oISBN
+          });
+
+          this.getView().setModel(newBookModel, "newBookModel");
+
+          if (!this.oEditBooksDialog) {
+            this.oEditBooksDialog = await this.loadFragment("editBooks"); // Load your fragment asynchronously
+          }
+
+          this.oEditBooksDialog.open();
         }
-    },
-    //Edit book save function
+      },
+      //Edit book save function
 
-    onSave1: function() {
-      var oPayload = this.getView().getModel("newBookModel").getData();
-      var oDataModel = this.getOwnerComponent().getModel("ModelV2");// Assuming this is your OData V2 model
-      console.log(oDataModel.getMetadata().getName());
+      onSave1: function () {
+        var oPayload = this.getView().getModel("newBookModel").getData();
+        var oDataModel = this.getOwnerComponent().getModel("ModelV2");// Assuming this is your OData V2 model
+        console.log(oDataModel.getMetadata().getName());
 
-      try {
+        try {
           // Assuming your update method is provided by your OData V2 model
           oDataModel.update("/Books(" + oPayload.ID + ")", oPayload, {
-              success: function() {
-                  this.getView().byId("idBooksTable").getBinding("items").refresh();
-                  this.oEditBooksDialog.close();
-              }.bind(this),
-              error: function(oError) {
-                  this.oEditBooksDialog.close();
-                  sap.m.MessageBox.error("Failed to update book: " + oError.message);
-              }.bind(this)
+            success: function () {
+              this.getView().byId("idBooksTable").getBinding("items").refresh();
+              this.oEditBooksDialog.close();
+            }.bind(this),
+            error: function (oError) {
+              this.oEditBooksDialog.close();
+              sap.m.MessageBox.error("Failed to update book: " + oError.message);
+            }.bind(this)
           });
-      } catch (error) {
+        } catch (error) {
           this.oEditBooksDialog.close();
           sap.m.MessageBox.error("Some technical Issue");
-      }
-  
-  
-      var oDataModel = new sap.ui.model.odata.v2.ODataModel({
+        }
+
+
+        var oDataModel = new sap.ui.model.odata.v2.ODataModel({
           serviceUrl: "https://port4004-workspaces-ws-q45kc.us10.trial.applicationstudio.cloud.sap/odata/v4/catalog/Books",
           defaultBindingMode: sap.ui.model.BindingMode.TwoWay,
           // Configure message parser
           messageParser: sap.ui.model.odata.ODataMessageParser
-      })  
-},
-
-
-
-
-
+        })
+      },
 
       onDeleteBtnPress: async function () {
 
@@ -263,7 +243,7 @@ sap.ui.define(
 
       },
       //edit book close
-      onClose1:function () {
+      onClose1: function () {
         if (this.oEditBooksDialog.isOpen()) {
           this.oEditBooksDialog.close();
         }

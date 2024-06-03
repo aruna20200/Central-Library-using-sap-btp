@@ -81,6 +81,11 @@ sap.ui.define(
             oDialog.open();
           });
         }
+      },
+      onCloseReserveBooks: function () {
+        if (this.ocreate.isOpen()) {
+            this.ocreate.close()
+        }
       }
     });
 

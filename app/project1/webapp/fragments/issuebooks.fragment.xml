@@ -82,13 +82,19 @@
             <Column class="issuebookheader">
                 <Text text="Request Date"/>
             </Column>
- 
+            
+            <Column class="idAQuantity2"
+            visible="false">
+                <Text text="AvaliableQuantity"/>
+            </Column>
+              
         </columns>
         <items>
             <ColumnListItem>
                 <cells >
                     <Text text="{book/ID}"/>
                     <Text text="{book/ISBN}"/>
+                    <Text text="{book/Aquantity}"/>
                     <Text text="{ID}"/>
                     <Text text="{user/ID}"/>
                     <Text text="{user/username}"/>

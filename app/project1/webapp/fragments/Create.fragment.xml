@@ -50,6 +50,7 @@
                 <Label
                     id="idtitleLabel"
                     text="Title"
+                    required="true"
                 />
                 <Input
                     id="idtitleInput"
@@ -58,6 +59,7 @@
                 <Label
                     id="idAuthor"
                     text="Author"
+                    required="true"
                 />
                 <Input 
                     id="idAuthorInput"
@@ -66,6 +68,7 @@
                 <Label
                     id="idISBNLabel"
                     text="ISBN"
+                    required="true"
                 />
                 <Input
                     id="idISBNInput"
@@ -74,6 +77,7 @@
                 <Label
                     id="idQuantity"
                     text="Quantity"
+                    required="true"
                 />
                 <Input 
                     id="idQuantityInput"
@@ -82,6 +86,7 @@
                 <Label
                     id="idAvaliableQuantity"
                     text="AvaliableQuantity"
+                    visible="false"
                 />
                 <Input 
                     id="idAvaliableQuantityInput"

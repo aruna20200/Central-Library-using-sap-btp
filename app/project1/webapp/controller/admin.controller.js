@@ -85,12 +85,68 @@ sap.ui.define(
 
         oTable.getBinding("items").filter(bFilters);
       },
+      //4th june
       onCreateBtnPress: async function () {
         if (!this.odialogbox2) {
           this.odialogbox2 = await this.loadFragment("Create");
         }
         this.odialogbox2.open();
       },
+      onCloseDialog: function () {
+        if (this.odialogbox2.isOpen()) {
+            this.odialogbox2.close()
+        }
+    },
+    onCreateBook: async function () {
+      var oPayload = this.getView().getModel("localModel").getProperty("/"),
+      
+          oModel = this.getView().getModel("ModelV2");
+          oPayload.Aquantity=oPayload.quantity;
+          this.getView().getModel("localModel").setData(oPayload);
+          if (!(oPayload.ISBN && oPayload.author && oPayload.Aquantity && oPayload.quantity && oPayload.title))
+          MessageToast.show("Enter all details");
+          return
+      }
+      try {
+        const oTitleExist = await this.checkTitle(oModel, oPayload.title, oPayload.ISBN)
+        if (oTitleExist) {
+            MessageToast.show("Book already exsist")
+            return
+        }
+        await this.createData(oModel, oPayload, "/Books");
+        this.getView().byId("idBookTable").getBinding("items").refresh();
+
+        this.odialogbox2.close();
+      } catch (error) {
+          this.odialogbox2.close();
+          MessageBox.error("Some technical Issue");
+      }
+
+      this.getView().byId("idBookTable").getBinding("items").refresh();
+
+  },
+  checkTitle: async function (oModel, stitle, sISBN) {
+    return new Promise((resolve, reject) => {
+        oModel.read("/Books", {
+            filters: [
+                new Filter("title", FilterOperator.EQ, stitle),
+                new Filter("ISBN", FilterOperator.EQ, sISBN)
+
+            ],
+            success: function (oData) {
+                resolve(oData.results.length > 0);
+            },
+            error: function () {
+                reject(
+                    "An error occurred while checking username existence."
+                );
+            }
+        })
+    })
+},
+
+
+
       onActiveloans: async function () {
         if (!this.odialogbox3) {
           this.odialogbox3 = await this.loadFragment("activeloans");
@@ -106,55 +162,78 @@ sap.ui.define(
         // location.reload();
       },
 
-// June 3rd issue books
-onissuebooks: async function () {
-  if (!this.issueBooksDialog) {
-      this.issueBooksDialog = await this.loadFragment("issuebooks")
-  }
-  this.issueBooksDialog.open();
-},
-onissuebookscancelbtn: function () {
-  if (this.issueBooksDialog.isOpen()) {
-      this.issueBooksDialog.close()
-  }
-},
-// on Accept june 3rd
-onReservebtnpress: async function (oEvent) {
-  console.log(this.byId("issuebooksTable").getSelectedItem().getBindingContext().getObject())
-  // var oSelectedItem = oEvent.getSource().getParent();
-  // console.log(oSelectedItem)
-  // console.log(oEvent.getSource().getBindingContext().getObject())
-  // console.log(oEvent.getParameters())
-  // var oSelectedUser = oSelectedItem.getBindingContext().getObject();
-  if(this.byId("issuebooksTable").getSelectedItems().length>1){
-      MessageToast.show("Please Select only one Book");
-      return
-  }
-  var oSelectedBook=this.byId("issuebooksTable").getSelectedItem().getBindingContext().getObject()
-  //june 4th Avaliable quantity
-  console.log(oSelectedBook)
+      // June 3rd issue books
+      onissuebooks: async function () {
+        if (!this.issueBooksDialog) {
+          this.issueBooksDialog = await this.loadFragment("issuebooks")
+        }
+        this.issueBooksDialog.open();
+      },
+      onissuebookscancelbtn: function () {
+        if (this.issueBooksDialog.isOpen()) {
+          this.issueBooksDialog.close()
+        }
+      },
+      // on Accept june 3rd
+      onReservebtnpress: async function (oEvent) {
+        console.log(this.byId("issuebooksTable").getSelectedItem().getBindingContext().getObject())
+        // var oSelectedItem = oEvent.getSource().getParent();
+        // console.log(oSelectedItem)
+        // console.log(oEvent.getSource().getBindingContext().getObject())
+        // console.log(oEvent.getParameters())
+        // var oSelectedUser = oSelectedItem.getBindingContext().getObject();
+        if (this.byId("issuebooksTable").getSelectedItems().length > 1) {
+          MessageToast.show("Please Select only one Book");
+          return
+        }
+        var oSelectedBook = this.byId("issuebooksTable").getSelectedItem().getBindingContext().getObject(),
+          //june 4th Avaliable quantity
+          oAval = oSelectedBook.book.Aquantity - 1;
+        console.log(oSelectedBook.book_ID);
+        var now = new Date();
+        if (now.getMonth() == 11) {
+          var current = new Date(now.getFullYear() + 1, 0, 1);
+        } else {
+          var current = new Date(now.getFullYear(), now.getMonth() + 1);
+          console.log(current)
+        }
+        const userModel = new sap.ui.model.json.JSONModel({
+          book_ID: oSelectedBook.book.ID,
+          user_ID: oSelectedBook.user.ID,
+          issuedate: new Date(),
+          returndate: current,
+          book: {
+            Aquantity: oAval
+          }
+        });
+        this.getView().setModel(userModel, "userModel");
 
-  const userModel = new sap.ui.model.json.JSONModel({
-      book_ID : oSelectedBook.book.ID,
-      user_ID: oSelectedBook.user.ID,
-      issuedate: new Date(),
-      returndate:new Date()
-  });
-  this.getView().setModel(userModel, "userModel");
+        const oPayload = this.getView().getModel("userModel").getProperty("/"),
+          oModel = this.getView().getModel("ModelV2");
 
-  const oPayload = this.getView().getModel("userModel").getProperty("/"),
-      oModel = this.getView().getModel("ModelV2");
+        try {
+          await this.createData(oModel, oPayload, "/Bookloans");
+          sap.m.MessageBox.success("Book Accepted");
+          //this.getView().byId("idIssueBooks").getBinding("items").refresh();
+          //this.oCreateBooksDialog.close();
+          this.byId("issuebooksTable").getSelectedItem().getBindingContext().delete("$auto");
+          oModel.update("/Books(" + oSelectedBook.book.ID + ")", oPayload.book, {
+            success: function () {
+            },
+            error: function (oError) {
+              //this.oEditBooksDialog.close();
+              sap.m.MessageBox.error("Failed to update book: " + oError.message);
+            }.bind(this)
+          });
 
-  try {
-      await this.createData(oModel, oPayload, "/Bookloans");
-      sap.m.MessageBox.success("Book Accepted");
-      //this.getView().byId("idIssueBooks").getBinding("items").refresh();
-      //this.oCreateBooksDialog.close();
-  } catch (error) {
-      //this.oCreateBooksDialog.close();
-      sap.m.MessageBox.error("Some technical Issue");
-  }
-},
+          // var oIssuebooksTable = this.byId("issuebooksTable");
+          // var oSelectedItem = oIssuebooksTable.getSelectedItem();
+          // oIssuebooksTable.removeItem(oSelectedItem);
+        } catch (error) {
+          //this.oCreateBooksDialog.close();
+          sap.m.MessageBox.error("Some technical Issue");
+        }
+      },
 
 
 
@@ -236,6 +315,23 @@ onReservebtnpress: async function (oEvent) {
       //Edit book save function
 
       onSave1: function () {
+        //june4th 
+        console.log(this.oQuantity)
+                console.log(this.oAq)
+                var oQ = parseInt(this.getView().byId("idQuantityInput1").getValue());
+                var oAq = parseInt(this.getView().byId("idAQuantityInput1").getValue());
+                if (this.oQuantity < oQ) {
+                    oQ = oQ - this.oQuantity
+                    oAq = oAq + oQ
+                }
+                else if (this.oQuantity > oQ) {
+                    oQ = this.oQuantity - oQ
+                    oAq = oAq - oQ
+                }
+                else {
+                    oAq = oAq
+                }
+                console.log(oQ)
         var oPayload = this.getView().getModel("newBookModel").getData();
         var oDataModel = this.getOwnerComponent().getModel("ModelV2");// Assuming this is your OData V2 model
         console.log(oDataModel.getMetadata().getName());
@@ -303,23 +399,93 @@ onReservebtnpress: async function (oEvent) {
 
       //june 4th
       onCloseloansBtnPress: async function () {
-
-        var oSelected = this.byId("myTable").getSelectedItem();
-        if (oSelected) {
-          var oISBN = oSelected.getBindingContext().getObject().ISBN;
-
-          oSelected.getBindingContext().delete("$auto").then(function () {
-            MessageToast.show(" SuccessFully Loan is close");
-          },
-            function (oError) {
-              MessageToast.show("Deletion Error: ", oError);
-            });
-          this.getView().byId("myTable").getBinding("items").refresh();
-
+        console.log(this.byId("myTable").getSelectedItem().getBindingContext().getObject())
+        var obj = this.byId("myTable").getSelectedItem().getBindingContext().getObject(),
+          oId = obj.book.ID,
+          oAvaiable = obj.book.Aquantity + 1;
+        var aSelectedItems = this.byId("myTable").getSelectedItems();
+        console.log()
+        var now = new Date();
+        if (now.getMonth() == 11) {
+          var current = new Date(now.getFullYear() + 1, 0, 1);
         } else {
-          MessageToast.show("Please Select a Row to closeLoan");
+          var current = new Date(now.getFullYear(), now.getMonth() + 1);
+          console.log(current);
         }
-      },
+        const userModel = new sap.ui.model.json.JSONModel({
+          book_ID: obj.book.ID,
+          user_ID: obj.user.ID,
+          issuedate: now,
+          returndate: current,
+
+
+          book: {
+            Aquantity: oAvaiable
+          }
+
+        });
+        this.getView().setModel(userModel, "userModel");
+
+        const oPayload = this.getView().getModel("userModel").getProperty("/"),
+          oModel = this.getView().getModel("ModelV2");
+        try {
+          oModel.update("/Books(" + oId + ")", oPayload.book, {
+            success: function () {
+              this.getView().byId("idBooksTable").getBinding("items").refresh();//
+              //this.oEditBooksDialog.close();
+            },
+            error: function (oError) {
+              //this.oEditBooksDialog.close();
+              sap.m.MessageBox.error("Failed to update book: " + oError.message);
+            }.bind(this)
+          });
+        } catch (error) {
+          //this.oCreateBooksDialog.close();
+          sap.m.MessageBox.error("Some technical Issue");
+        };
+        this.byId("idUserLoans").getSelectedItem().getBindingContext().delete("$auto");
+        if (aSelectedItems.length > 0) {
+          var aISBNs = [];
+          aSelectedItems.forEach(function (oSelectedItem) {
+              var sISBN = oSelectedItem.getBindingContext().getObject().ISBN;
+              aISBNs.push(sISBN);
+              oSelectedItem.getBindingContext().delete("$auto");
+          });
+
+          Promise.all(aISBNs.map(function (sISBN) {
+              return new Promise(function (resolve, reject) {
+                  resolve(sISBN + " Successfully Deleted");
+              });
+          })).then(function (aMessages) {
+              aMessages.forEach(function (sMessage) {
+                  MessageToast.show(sMessage);
+              });
+          }).catch(function (oError) {
+              MessageToast.show("Deletion Error: " + oError);
+          });
+
+          // this.getView().byId("idBookTable").removeSelections(true);
+          // this.getView().byId("idBookTable").getBinding("items").refresh();
+      } else {
+          MessageToast.show("Please Select Rows to Delete");
+      }
+
+
+        // var oISBN = oSelected.getBindingContext().getObject().ISBN;
+
+        // oSelected.getBindingContext().delete("$auto").then(function () {
+        //   MessageToast.show(" SuccessFully Loan is close");
+        // },
+        // function (oError) {
+        //   MessageToast.show("Deletion Error: ", oError);
+        // });
+        //   this.getView().byId("myTable").getBinding("items").refresh();
+
+        // } else {
+        //   MessageToast.show("Please Select a Row to closeLoan");
+        // }
+
+    }
 
     });
   }

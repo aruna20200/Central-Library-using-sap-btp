@@ -1,12 +1,11 @@
-
 <core:FragmentDefinition
-   xmlns="sap.m"
+    xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
-   xmlns:uxap="sap.uxap"
-   xmlns:f="sap.f"
+    xmlns:uxap="sap.uxap"
+    xmlns:f="sap.f"
 >
-<Dialog
+    <Dialog
         id="idActiveLoansTable"
         resizable="true"
         draggable="true"
@@ -57,16 +56,25 @@
                             text="Book Name"
                         />
                     </Column>
-                    <Column id="idcol5">
+                    <Column id="idcol4">
                         <Text
                             id="idIssueddate"
                             text="Issued date"
                         />
                     </Column>
-                    <Column id="idcol4">
+                    <Column id="idcol5">
                         <Text
                             id="idDueDate"
                             text="Due Date"
+                        />
+                    </Column>
+                    <Column
+                        id="idcol6"
+                        visible="false"
+                    >
+                        <Text
+                            id="idAQuantity3"
+                            text="AvaliableQuantity"
                         />
                     </Column>
                 </columns>
@@ -93,7 +101,10 @@
                                 id="idDueDateValue"
                                 text="{returndate}"
                             />
-                           
+                            <Text
+                                id="idBookAquantity"
+                                text="{book/Aquantity}"
+                            />
                         </cells>
                     </ColumnListItem>
                 </items>

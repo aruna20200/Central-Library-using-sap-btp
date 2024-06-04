@@ -61,6 +61,8 @@
                 />
                 <Input 
                     id="idAuthorInput1"
+                    editable="true"
+                    valueLiveUpdate="true"
                     value="{newBookModel>/author}"
                 />
                 <Label
@@ -77,14 +79,18 @@
                 />
                 <Input 
                     id="idQuantityInput1"
+                    editable="true"
+                    valueLiveUpdate="true"
                     value="{newBookModel>/quantity}"
                 />
                 <Label
                     id="idAQuantity1"
-                    text="Quantity"
+                    text="AValiableQuantity"
                 />
                 <Input 
                     id="idAQuantityInput1"
+                    editable="false"
+                    valueLiveUpdate="true"
                     value="{newBookModel>/Aquantity}"
                 />
             </form:SimpleForm>

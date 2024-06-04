@@ -106,25 +106,77 @@ sap.ui.define(
         // location.reload();
       },
 
-      
+// June 3rd issue books
+onissuebooks: async function () {
+  if (!this.issueBooksDialog) {
+      this.issueBooksDialog = await this.loadFragment("issuebooks")
+  }
+  this.issueBooksDialog.open();
+},
+onissuebookscancelbtn: function () {
+  if (this.issueBooksDialog.isOpen()) {
+      this.issueBooksDialog.close()
+  }
+},
+// on Accept june 3rd
+onReservebtnpress: async function (oEvent) {
+  console.log(this.byId("issuebooksTable").getSelectedItem().getBindingContext().getObject())
+  // var oSelectedItem = oEvent.getSource().getParent();
+  // console.log(oSelectedItem)
+  // console.log(oEvent.getSource().getBindingContext().getObject())
+  // console.log(oEvent.getParameters())
+  // var oSelectedUser = oSelectedItem.getBindingContext().getObject();
+  if(this.byId("issuebooksTable").getSelectedItems().length>1){
+      MessageToast.show("Please Select only one Book");
+      return
+  }
+  var oSelectedBook=this.byId("issuebooksTable").getSelectedItem().getBindingContext().getObject()
+  //june 4th Avaliable quantity
+  console.log(oSelectedBook)
 
-//on issue books 2nd june
-      onissuebooks: async function () {
-        if (!this.odialogbox4) {
-          this.odialogbox4 = await this.loadFragment("issuebooks");
-         }
-         this.odialogbox4.open();
-        
-      },
+  const userModel = new sap.ui.model.json.JSONModel({
+      book_ID : oSelectedBook.book.ID,
+      user_ID: oSelectedBook.user.ID,
+      issuedate: new Date(),
+      returndate:new Date()
+  });
+  this.getView().setModel(userModel, "userModel");
 
-      //for closing the issuebooks popup...
-      onCloseIssueBookPress: function () {
-        if (this.odialogbox4.isOpen()) {
-          this.odialogbox4.close();
-        }
+  const oPayload = this.getView().getModel("userModel").getProperty("/"),
+      oModel = this.getView().getModel("ModelV2");
 
-        // location.reload();
-      },
+  try {
+      await this.createData(oModel, oPayload, "/Bookloans");
+      sap.m.MessageBox.success("Book Accepted");
+      //this.getView().byId("idIssueBooks").getBinding("items").refresh();
+      //this.oCreateBooksDialog.close();
+  } catch (error) {
+      //this.oCreateBooksDialog.close();
+      sap.m.MessageBox.error("Some technical Issue");
+  }
+},
+
+
+
+
+
+      // //on issue books 2nd june
+      //       onissuebooks: async function () {
+      //         if (!this.odialogbox4) {
+      //           this.odialogbox4 = await this.loadFragment("issuebooks");
+      //          }
+      //          this.odialogbox4.open();
+
+      //       },
+
+      // //for closing the issuebooks popup...
+      // onCloseIssueBookPress: function () {
+      //   if (this.odialogbox4.isOpen()) {
+      //     this.odialogbox4.close();
+      //   }
+
+      // location.reload();
+      // },
 
 
       onCancelDialog2: function () {
@@ -133,7 +185,7 @@ sap.ui.define(
         }
         // location.reload();
       },
-       onSave: async function () {
+      onSave: async function () {
 
         const oPayload = this.getView().getModel("localModel").getProperty("/"),
           oModel = this.getView().getModel("ModelV2");
@@ -246,6 +298,26 @@ sap.ui.define(
       onClose1: function () {
         if (this.oEditBooksDialog.isOpen()) {
           this.oEditBooksDialog.close();
+        }
+      },
+
+      //june 4th
+      onCloseloansBtnPress: async function () {
+
+        var oSelected = this.byId("myTable").getSelectedItem();
+        if (oSelected) {
+          var oISBN = oSelected.getBindingContext().getObject().ISBN;
+
+          oSelected.getBindingContext().delete("$auto").then(function () {
+            MessageToast.show(" SuccessFully Loan is close");
+          },
+            function (oError) {
+              MessageToast.show("Deletion Error: ", oError);
+            });
+          this.getView().byId("myTable").getBinding("items").refresh();
+
+        } else {
+          MessageToast.show("Please Select a Row to closeLoan");
         }
       },
 

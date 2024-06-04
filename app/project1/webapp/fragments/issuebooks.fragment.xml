@@ -1,78 +1,103 @@
 
 <core:FragmentDefinition
     xmlns:core="sap.ui.core"
-    xmlns="sap.m"
     xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
 >
     <Dialog
-        id="idIssueBook"
-        resizable="false"
+        id="idissuebooksDialog"
+        resizable="true"
         draggable="true"
-        contentWidth="35%"
-        title="Issue Books"
+        contentWidth="30%"
+        title="Issue Books Details"
     >
-        <beginButton>
-            <Button
-                id="idIssueBtn"
-                text="Issue Book"
-                press="onIssueBookPress"
-                type="Success"
-            />
-        </beginButton>
-        <endButton>
-            <Button
-                id="idCancelIssue"
-                text="Cancel"
-                press="onCloseIssueBookPress"
-                type="Negative"
-            />
-        </endButton>
+       <customHeader>
+            <Bar>
+            <contentLeft>
+            <Text text="Issue Books Details"></Text>
+            </contentLeft>
+                <contentRight>
+                    <Button
+                        id="onissuecancelbtn"
+                        icon="sap-icon://sys-cancel"
+                        press="onissuebookscancelbtn"
+                        type="Reject"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+        <VBox
+            class="cancelbtn"
+            alignItems="End"
+        />
+        <VBox
+            class="sapUiSmallMargin"
+            alignItems="Center"
+        >
+             <Table
+             class="issuebooksheader"
+              id="issuebooksTable"
+              mode="MultiSelect"
+                alternateRowColors="true"
+               items="{ path:'/Reservations',  parameters : {
+            $count : true
+           
+        }}" >
+        <headerToolbar >
+                    <OverflowToolbar id="IssueBooksTableHeader" class="issuebookheader">
+                        <Title
+                           
+                            id="idIssueBooksTableHeaderTitle"
+                            class="classTableHeaderTitle"
+                            text="Total Issue Books: {/Issuances/$count}">
+                             
+                     
+                        </Title>
+                 
+                              <Button id="idreservebtn"
+                              text="Issue"
+                              press="onReservebtnpress"
+                              type="Emphasized" />
+                        </OverflowToolbar>
+                        </headerToolbar>
+        <columns>
+            <Column>
+                <Text text="Book Id"/>
+            </Column>
+           <Column>
+                <Text text="ISBN"/>
+            </Column>
+            <Column>
+                <Text text="Reservation Id"/>
+            </Column>
+            <Column>
+                <Text text="User Id"/>
+            </Column>
+            <Column>
+                <Text text="UserName"/>
+            </Column>
+            <Column>
+                <Text text="Title"/>
+            </Column>
+            <Column class="issuebookheader">
+                <Text text="Request Date"/>
+            </Column>
  
-        <content>
-            <form:SimpleForm
-                id="idIssueBookForm"
-                editable="true"
-                layout="ResponsiveGridLayout"
-                labelSpanXL="3"
-                labelSpanL="3"
-                labelSpanM="3"
-                labelSpanS="12"
-                adjustLabelSpan="false"
-                emptySpanXL="4"
-                emptySpanL="4"
-                emptySpanM="4"
-                emptySpanS="0"
-                columnsXL="1"
-                columnsL="1"
-                columnsM="1"
-                singleContainerFullSize="false"
-            >
-                <Label
-                    id="idIDLable1"
-                    text="ID"
-                />
-                <Input id="idIDInput1" value="{localModel>/ID}" />
-                <Label
-                    id="iduser_IDLable1"
-                    text="user_ID"
-                />
-                <Input
-                    id="iduser_IDInput1"
-                    value="{localModel>/user_ID}"
-                />
-                <Label
-                    id="idissueDate"
-                    text="issueDate"
-                />
-                <Input id="idissueDate1Input" value="{localModel>/issueDate}" />
- 
-                <Label
-                    id="idissuereturnDate"
-                    text="returnDate"
-                />
-                <Input id="idreturnDate" value="{localModel>/returnDate}"/>
-            </form:SimpleForm>
-        </content>
-    </Dialog>
+        </columns>
+        <items>
+            <ColumnListItem>
+                <cells >
+                    <Text text="{book/ID}"/>
+                    <Text text="{book/ISBN}"/>
+                    <Text text="{ID}"/>
+                    <Text text="{user/ID}"/>
+                    <Text text="{user/username}"/>
+                    <Text text="{book/title}"/>
+                    <Text text="{reservedDate}"/>
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+        </VBox>
+            </Dialog>
 </core:FragmentDefinition>
- 

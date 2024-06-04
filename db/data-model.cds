@@ -40,6 +40,5 @@ entity Reservations : cuid {
 entity Issuances : cuid{
     user : Association to users;
     book : Association to Books;
-    issueDate : Date;
-    returnDate : Date;
+    reservedDate : Date;
 }

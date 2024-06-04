@@ -79,6 +79,15 @@
                     id="idQuantityInput"
                     value="{localModel>/quantity}"
                 />
+                <Label
+                    id="idAvaliableQuantity"
+                    text="AvaliableQuantity"
+                />
+                <Input 
+                    id="idAvaliableQuantityInput"
+                    value="{localModel>/Avaliablequantity}"
+                />
+             
              
             </form:SimpleForm>
         </content>

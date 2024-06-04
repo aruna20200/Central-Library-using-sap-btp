@@ -18,19 +18,22 @@
             <Table
                 id="myTable"
                 inset="false"
-                items="{/bookloans}"
+                mode="MultiSelect"
+                items="{/Bookloans}"
             >
                 <headerToolbar>
                     <Toolbar id="idToolBar">
                         <ToolbarSpacer id="idSpacer" />
-                        <!-- <Button
-                            id="idAddButton"
-                            text="Issue"
-                            press="onAdd"
-                        /> -->
+                        <Button
+                            id="idcloseloanButton"
+                            text="Close Loans"
+                            type="Reject"
+                            press="onCloseloansBtnPress"
+                        />
                         <Button
                             id="idCloseButton"
                             text="close"
+                            type="Reject"
                             press="onCloseActiveLoans"
                         />
                     </Toolbar>

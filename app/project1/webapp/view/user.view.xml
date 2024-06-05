@@ -59,6 +59,13 @@
                         id="idWelcomeTag"
                         text="Welcome  {name}"
                     />
+                    <m:Button
+                        tooltip="Notification"
+                        text=""
+                        icon="sap-icon://bell"
+                        type="Transparent"
+                        press="onNotificationPress"
+                    />
                 </expandedContent>
 
                 <actions />
@@ -162,15 +169,7 @@
                                     <m:ToolbarSpacer
                                         id="idTableHeaderSpacerUserLoans"
                                     />
-                                    
-                                        <m:Button
-                                            tooltip="Notification"
-                                            text=""
-                                            icon="sap-icon://bell"
-                                            type="Transparent"
-                                            press="onNotificationPress"
-                                        />
-                                    
+
                                     <!-- <m:Button
                                             id="idBtnNewBook"
                                             text="New Book"

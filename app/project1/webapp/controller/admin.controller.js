@@ -4,13 +4,16 @@ sap.ui.define(
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/m/Token",
+    "sap/m/MessageToast",
     "sap/ui/model/json/JSONModel"
   ],
   function (
     Controller,
     Filter,
     FilterOperator,
-    Token
+    Token,
+    MessageToast,
+    JSONModel
   ) {
     "use strict";
 
@@ -25,6 +28,7 @@ sap.ui.define(
           author: "",
           ISBN: "",
           quantity: 0,
+          Aquantity: 0,
         });
 
 
@@ -267,19 +271,69 @@ sap.ui.define(
         }
         // location.reload();
       },
+      // june 5th AQ and Q
       onSave: async function () {
 
         const oPayload = this.getView().getModel("localModel").getProperty("/"),
           oModel = this.getView().getModel("ModelV2");
-        try {
-          await this.createData(oModel, oPayload, "/Books");
-          this.getView().byId("idBooksTable").getBinding("items").refresh();
-          this.odialogbox.close();
-        } catch (error) {
-          this.odialogbox.close();
-          sap.m.MessageBox.error("Some technical Issue");
-        }
-      },
+          oPayload.Aquantity=oPayload.quantity;
+          this.getView().getModel("localModel").setData(oPayload);
+          if (!(oPayload.ISBN && oPayload.author && oPayload.Aquantity && oPayload.quantity && oPayload.title))
+          {
+          MessageToast.show("Enter all details");
+                    return
+                }
+                try {
+                  // const oTitleExist = await this.checkTitle(oModel, oPayload.title, oPayload.ISBN)
+                  // if (oTitleExist) {
+                  //     MessageToast.show("Book already exsist")
+                  //     return
+                  // }
+                  await this.createData(oModel, oPayload, "/Books");
+                  this.getView().byId("idBookTable").getBinding("items").refresh();
+
+                  this.odialogbox2.close();
+              } catch (error) {
+                  this.odialogbox2.close();
+                  MessageBox.error("Some technical Issue");
+              }
+
+              this.getView().byId("idBookTable").getBinding("items").refresh();
+
+          },
+          checkTitle: async function (oModel, stitle, sISBN) {
+            
+              return new Promise((resolve, reject) => {
+                  oModel.read("/Books", {
+                      filters: [
+                          new Filter("title", FilterOperator.EQ, stitle),
+                          new Filter("ISBN", FilterOperator.EQ, sISBN)
+
+                      ],
+                      success: function (oData) {
+                          resolve(oData.results.length > 0);
+                      },
+                      error: function () {
+                          reject(
+                              "An error occurred while checking username existence."
+                          );
+                      }
+                  })
+              })
+          },
+
+
+
+      //   try {
+      //     await this.createData(oModel, oPayload, "/Books");
+      //     this.getView().byId("idBooksTable").getBinding("items").refresh();
+      //     this.odialogbox.close();
+      //   } catch (error) {
+      //     this.odialogbox.close();
+      //     sap.m.MessageBox.error("Some technical Issue");
+      //   }
+      // },
+
       onBookListLoad: function () {
         this.getView().byId("idBooksTable").getBinding("items").refresh();
 

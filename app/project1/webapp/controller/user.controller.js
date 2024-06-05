@@ -122,6 +122,21 @@ sap.ui.define(
           sap.m.MessageBox.error("Some technical Issue");
         }
       },
+      onNotificationPress:async function(){
+        if (!this.oNotifyDialog) {
+            this.oNotifyDialog = await this.loadFragment("Notify")
+        }
+        this.oNotifyDialog.open();
+        const oObjectPage = this.getView().byId("idloginDialog");
+
+        oObjectPage.bindElement(`/Users(${this.ID})`);
+        
+    },
+    onCloseDialog:function(){
+      if(this.oNotifyDialog.isOpen()){
+        this.oNotifyDialog.close();
+      }
+    },
     
       // onBorrowNewBookPress: async function (oEvent) {
       //   var oSelectedItem = oEvent.getSource();

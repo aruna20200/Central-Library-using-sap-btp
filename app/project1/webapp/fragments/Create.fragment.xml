@@ -86,11 +86,11 @@
                 <Label
                     id="idAvaliableQuantity"
                     text="AvaliableQuantity"
-                    visible="false"
+                    visible="true"
                 />
                 <Input 
                     id="idAvaliableQuantityInput"
-                    value="{localModel>/Avaliablequantity}"
+                    value="{localModel>/Aquantity}"
                 />
              
              

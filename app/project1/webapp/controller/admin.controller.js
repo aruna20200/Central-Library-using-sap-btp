@@ -288,7 +288,7 @@ sap.ui.define(
 
       oneditBtnPress: async function () {
         debugger
-        var oSelected = this.byId("idBooksTable").getSelectedItem();
+        var oSelected = this.byId("idBooksTable").getSelectedItems();
         if (oSelected.length === 0) {
           MessageToast.show("Please Select atleast one Book to Edit");
           return
@@ -299,21 +299,22 @@ sap.ui.define(
         }
         // var oSelect = oSelected[0]
         if (oSelected) {
+          debugger
           var oID = oSelected[0].getBindingContext().getProperty("ID");
           var otitle = oSelected[0].getBindingContext().getProperty("title");
           var oauthor = oSelected[0].getBindingContext().getProperty("author");
           // var oquantity = oSelected.getBindingContext().getProperty("quantity");
           this.oquantity = oSelected[0].getBindingContext().getProperty("quantity");
           // var oAquantity = oSelected.getBindingContext().getProperty("Aquantity");
-          this.oAquantity = oSelected[0].getBindingContext().getProperty("oAquantity");
+          this.oAquantity = oSelected[0].getBindingContext().getProperty("Aquantity");
           var oISBN = oSelected[0].getBindingContext().getProperty("isbn");
 
           var newBookModel = new sap.ui.model.json.JSONModel({
             ID: oID,
             author: oauthor,
             title: otitle,
-            quantity: oquantity,
-            Aquantity: oAquantity,
+            quantity: this.oquantity,
+            Aquantity:this.oAquantity,
             ISBN: oISBN
           });
 

@@ -48,20 +48,77 @@ sap.ui.define(
       },
      
  
-      onSignUp1: async function () {
-        debugger
-        const oPayload = this.getView().getModel("localModel").getProperty("/"),
-            oModel = this.getView().getModel("ModelV2");
-        try {
-            await this.createData(oModel, oPayload, "/users");
-            // this.getView().byId("idBooksTable").getBinding("items").refresh();
-            this.oSignUpUser.close();
-            MessageBox.success("successfully signup");
-        } catch (error) {
-            this.oSignUpUser.close();
-            sap.m.MessageBox.error("Some technical Issue");
-        }
-    },
+    //   onSignUp1: async function () {
+    //     debugger
+    //     const oPayload = this.getView().getModel("localModel").getProperty("/"),
+    //         oModel = this.getView().getModel("ModelV2");
+            
+              
+    //     try {
+    //         await this.createData(oModel, oPayload, "/users");
+    //         // this.getView().byId("idBooksTable").getBinding("items").refresh();
+    //         this.oSignUpUser.close();
+    //         MessageBox.success("successfully signup");
+    //     } catch (error) {
+    //         this.oSignUpUser.close();
+    //         sap.m.MessageBox.error("Some technical Issue");
+    //     }
+    // },
+
+//june 7th Validations added in signup
+    onSignUp1: async function () {
+      debugger;
+      // Get Payload from localModel2
+      const oPayload = this.getView().getModel("localModel").getProperty("/"),
+          oModel = this.getView().getModel("ModelV2");
+     
+      // Check if username and password are provided
+      if (!oPayload.username || !oPayload.password) {
+          sap.m.MessageBox.error("Please enter valid Username and Password");
+          return;
+      }
+
+      // Check if username, email, or phone number already exist
+      const aFilters = [
+          new Filter("username", FilterOperator.EQ, oPayload.username),
+          //new Filter("Email", FilterOperator.EQ, oPayload.Email),
+          //new Filter("phonenumber", FilterOperator.EQ, oPayload.phonenumber)
+      ];
+
+      const aFilterPromises = aFilters.map(oFilter =>
+          new Promise((resolve, reject) => {
+              oModel.read("/users", {
+                  filters: [oFilter],
+                  success: function (oData) {
+                      if (oData.results.length > 0) {
+                          resolve(true);
+                      } else {
+                          resolve(false);
+                      }
+                  },
+                  error: function (oError) {
+                      reject(oError);
+                  }
+              });
+          })
+      );
+
+      try {
+          const [bUsernameExists] = await Promise.all(aFilterPromises);
+          if (bUsernameExists) {
+              sap.m.MessageBox.error("Username is already used. Please enter a valid username.");
+              return;
+          }
+          // Create new user if all checks pass
+          await this.createData(oModel, oPayload, "/users");
+          this.oSignUpUser.close();
+          MessageToast.show("Your Details registered successfully");
+      } catch (error) {
+          this.oSignUpUser.close();
+          sap.m.MessageBox.error("Some technical issue occurred,");
+      }
+  },
+  
                
  
     onSignin: async function () {

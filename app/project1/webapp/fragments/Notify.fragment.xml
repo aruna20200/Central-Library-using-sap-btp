@@ -4,7 +4,7 @@
     xmlns="sap.m"
 >
     <Dialog
-        id="idloginDialog"
+        id="idnotifyDialog"
         resizable="true"
         draggable="true"
         contentWidth="30%"
@@ -30,7 +30,7 @@
          
         alternateRowColors="true"
         backgroundDesign="Transparent"
-       items="{Bookloans}"
+       items="{bookloan}"
         
     >
         <columns>
@@ -48,7 +48,7 @@
                 <cells>
                     <Text
                         id="idBISBNvalue"
-                        text="{notify} on {issueDate}"
+                        text="{notify} on {issuedate}"
                     />
                     
                 </cells>

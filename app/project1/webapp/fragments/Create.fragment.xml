@@ -10,7 +10,6 @@
         contentWidth="30%"
         title="Add Books"
     >
-   
         <beginButton>
             <Button
                 id="idConfirmButton"
@@ -27,7 +26,7 @@
                 type="Negative"
             />
         </endButton>
-   
+
         <content>
             <form:SimpleForm
                 id="idBookDetailsForm"
@@ -61,7 +60,7 @@
                     text="Author"
                     required="true"
                 />
-                <Input 
+                <Input
                     id="idAuthorInput"
                     value="{localModel>/author}"
                 />
@@ -79,7 +78,7 @@
                     text="Quantity"
                     required="true"
                 />
-                <Input 
+                <Input
                     id="idQuantityInput"
                     value="{localModel>/quantity}"
                 />
@@ -88,12 +87,10 @@
                     text="AvaliableQuantity"
                     visible="true"
                 />
-                <Input 
+                <Input
                     id="idAvaliableQuantityInput"
                     value="{localModel>/Aquantity}"
                 />
-             
-             
             </form:SimpleForm>
         </content>
     </Dialog>

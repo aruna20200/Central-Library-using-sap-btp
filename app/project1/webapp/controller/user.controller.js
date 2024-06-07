@@ -122,22 +122,22 @@ sap.ui.define(
           sap.m.MessageBox.error("Some technical Issue");
         }
       },
-      onNotificationPress:async function(){
+      onNotificationPress: async function () {
         if (!this.oNotifyDialog) {
-            this.oNotifyDialog = await this.loadFragment("Notify")
+          this.oNotifyDialog = await this.loadFragment("Notify")
         }
         this.oNotifyDialog.open();
-        const oObjectPage = this.getView().byId("idloginDialog");
+        const oObjectPage = this.getView().byId("idnotifyDialog");
 
-        oObjectPage.bindElement(`/Users(${this.ID})`);
-        
-    },
-    onCloseDialog:function(){
-      if(this.oNotifyDialog.isOpen()){
-        this.oNotifyDialog.close();
-      }
-    },
-    
+        oObjectPage.bindElement(`/users(${this.ID})`);
+
+      },
+      onCloseDialog: function () {
+        if (this.oNotifyDialog.isOpen()) {
+          this.oNotifyDialog.close();
+        }
+      },
+
       // onBorrowNewBookPress: async function (oEvent) {
       //   var oSelectedItem = oEvent.getSource();
       //   //console.log(oSelectedItem)
@@ -150,17 +150,17 @@ sap.ui.define(
       //   }
       //   var oSelectedBook = this.byId("iduserBookTable").getSelectedItem().getBindingContext().getObject()
       //   console.log(oSelectedBook)
- 
+
       //   const userModel = new sap.ui.model.json.JSONModel({
       //     user_ID: userId,
       //     book_ID: oSelectedBook.ID,
       //     reservedDate: new Date(),
       //   });
       //   this.getView().setModel(userModel, "userModel");
- 
+
       //   const oPayload = this.getView().getModel("userModel").getProperty("/"),
       //     oModel = this.getView().getModel("ModelV2");
- 
+
       //   try {
       //     await this.createData(oModel, oPayload, "/Issuances");
       //     MessageBox.success("Book Reserved");
@@ -171,7 +171,7 @@ sap.ui.define(
       // },
       onCloseReserveBooks: function () {
         if (this.oReserveBooksDialog.isOpen()) {
-            this.oReserveBooksDialog.close()
+          this.oReserveBooksDialog.close()
         }
       }
     });

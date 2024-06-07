@@ -18,6 +18,7 @@ entity Bookloans : cuid {
  
   issuedate  : Date;
   returndate : Date;
+  notify      : String;
   book : Association to  one  Books;
   user : Association to   one users;
 }

@@ -209,6 +209,10 @@ sap.ui.define(
           user_ID: oSelectedBook.user.ID,
           issuedate: new Date(),
           returndate: current,
+          notify:
+                `Your reserved book "
+                ${oSelectedBook.book.title}
+                " is issued`,
           book: {
             Aquantity: oAval
           }

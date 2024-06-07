@@ -6,7 +6,7 @@
     xmlns="sap.m"
 >
     <App id="idApp">
-        <Page id="idPage" showHeader="false">
+        <Page id="idPage" class="background" showHeader="false">
             <VBox id="idVBox"
                 justifyContent="Center"
                 alignItems="Center"

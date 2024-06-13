@@ -7,8 +7,9 @@
         id="idissuebooksDialog"
         resizable="true"
         draggable="true"
-        contentWidth="30%"
+        contentWidth="80%"
         title="Issue Books Details"
+        contentHeight="80%"
     >
         <customHeader>
             <Bar>

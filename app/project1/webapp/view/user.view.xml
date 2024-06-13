@@ -17,6 +17,7 @@
         width="30%"
     />
     <ObjectPageLayout
+    
         id="ObjectPageLayout"
         enableLazyLoading="true"
         beforeNavigate="onBeforeNavigate"
@@ -32,6 +33,7 @@
                         id="IdLibraryTitle"
                         text="User Dashboard"
                         wrapping="true"
+                        
                     />
                 </expandedHeading>
 
@@ -58,6 +60,7 @@
                     <m:Text
                         id="idWelcomeTag"
                         text="Welcome  {name}"
+                        wrapping="true"
                     />
                     <m:Button
                         tooltip="Notification"
@@ -67,7 +70,6 @@
                         press="onNotificationPress"
                     />
                 </expandedContent>
-
                 <actions />
             </ObjectPageDynamicHeaderTitle>
         </headerTitle>
@@ -338,4 +340,5 @@
             <subSections />
         </ObjectPageSection>
     </ObjectPageLayout>
+    
 </mvc:View>

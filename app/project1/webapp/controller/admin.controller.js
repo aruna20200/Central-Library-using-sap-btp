@@ -210,7 +210,7 @@ sap.ui.define(
           issuedate: new Date(),
           returndate: current,
           notify:
-                `Your reserved book "
+                `Your book is reserved "
                 ${oSelectedBook.book.title}
                 " is issued`,
           book: {

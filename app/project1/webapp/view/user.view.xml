@@ -1,6 +1,7 @@
 <mvc:View
     controllerName="com.app.project1.controller.user"
     xmlns="sap.uxap"
+    xmlns:uxap="sap.uxap"
     xmlns:layout="sap.ui.layout"
     xmlns:form="sap.ui.layout.form"
     xmlns:m="sap.m"
@@ -17,7 +18,6 @@
         width="30%"
     />
     <ObjectPageLayout
-    
         id="ObjectPageLayout"
         enableLazyLoading="true"
         beforeNavigate="onBeforeNavigate"
@@ -33,7 +33,6 @@
                         id="IdLibraryTitle"
                         text="User Dashboard"
                         wrapping="true"
-                        
                     />
                 </expandedHeading>
 
@@ -62,6 +61,8 @@
                         text="Welcome  {name}"
                         wrapping="true"
                     />
+                </expandedContent>
+                <actions>
                     <m:Button
                         tooltip="Notification"
                         text=""
@@ -69,8 +70,15 @@
                         type="Transparent"
                         press="onNotificationPress"
                     />
-                </expandedContent>
-                <actions />
+
+                    <m:Button
+                        id="idLogout"
+                        text="Logout"
+                        type="Negative"
+                        icon="sap-icon://log"
+                        press="onLogoutbutton"
+                    />
+                </actions>
             </ObjectPageDynamicHeaderTitle>
         </headerTitle>
 
@@ -340,5 +348,4 @@
             <subSections />
         </ObjectPageSection>
     </ObjectPageLayout>
-    
 </mvc:View>

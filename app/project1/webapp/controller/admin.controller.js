@@ -337,6 +337,11 @@ sap.ui.define(
       //     sap.m.MessageBox.error("Some technical Issue");
       //   }
       // },
+      //june 13th admin logout
+      onLogoutadminbutton:function () {
+        var oRouter=this.getOwnerComponent().getRouter();
+        oRouter.navTo("RouteView1",{},true);
+      },
 
       onBookListLoad: function () {
         this.getView().byId("idBooksTable").getBinding("items").refresh();

@@ -11,6 +11,7 @@
     <f:DynamicPage
         id="idBooksListPage"
         headerExpanded="true"
+       
     >
         <f:title>
             <f:DynamicPageTitle id="idBooksListPageTitle">
@@ -40,17 +41,15 @@
                     />
                 </f:snappedTitleOnMobile>
                 <f:navigationActions>
-                    <!-- <Button
-                        id="idBtnFullScreen"
-                        icon="sap-icon://full-screen"
-                        type="Transparent"
-                        text="Addbooks"
+              
+                   
+                      <Button
+                        id="idAdminLogout"
+                        text="Logout"
+                        type="Negative"
+                        icon="sap-icon://log"
+                        press="onLogoutadminbutton"
                     />
-                    <Button
-                        id="idBtnDecline"
-                        icon="sap-icon://decline"
-                        type="Transparent"
-                    /> -->
                 </f:navigationActions>
             </f:DynamicPageTitle>
         </f:title>

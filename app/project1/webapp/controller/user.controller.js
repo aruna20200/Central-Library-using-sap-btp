@@ -169,6 +169,10 @@ sap.ui.define(
       //     MessageBox.error("Some technical Issue");
       //   }
       // },
+      onLogoutbutton:function () {
+        var oRouter=this.getOwnerComponent().getRouter();
+        oRouter.navTo("RouteView1",{},true);
+      },
       onCloseReserveBooks: function () {
         if (this.oReserveBooksDialog.isOpen()) {
           this.oReserveBooksDialog.close()

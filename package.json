@@ -14,14 +14,20 @@
   "devDependencies": {
     "@cap-js/sqlite": "^1",
     "@sap/eslint-plugin-cds": "^3",
-    "@sap/ux-specification": "^1.120.11",
-    "eslint": "^9"
+    "@sap/eslint-plugin-ui5-jsdocs": "^2.0.5",
+    "@sap/ux-specification": "^1.120.12",
+    "@sapui5/ts-types": "^1.92.2",
+    "eslint": "^7.32.0"
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-centrallibraryfiorielements": "cds watch --open centrallibraryfiorielements/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-centrallibrary": "cds watch --open centrallibrary/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "sapux": [
-    "app/project1"
+    "app/project1",
+    "app/centrallibraryfiorielements",
+    "app/centrallibrary"
   ]
 }

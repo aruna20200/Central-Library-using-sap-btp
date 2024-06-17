@@ -2,7 +2,6 @@ namespace my.library;
 
 using {cuid} from '@sap/cds/common';
 
-
 entity Books : cuid {
   title    : String;
   author   : String;

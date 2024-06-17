@@ -7,7 +7,7 @@
         id="idnotifyDialog"
         resizable="true"
         draggable="true"
-        contentWidth="30%"
+        contentWidth="50%"
         title="Login Details"
     >
         <customHeader>
